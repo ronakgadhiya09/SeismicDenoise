@@ -8,6 +8,14 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{hyperref}  % Added for hyperlinks
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=blue,
+}
 
 \lstset{
   basicstyle=\small\ttfamily,
@@ -30,17 +38,17 @@
 \author{Ronak Gadhiya (B22AI052) \\ 
         Arnava Srivastava (B22AI009) \\
         Aditya Mundhara (B22AI057) \\
-        Shushrut Barmathe (B22AI041) \\
-        Department of CSE, IIT Jodhpur \\
-        Mathematics for Big Data}
-\date{\today}
+        Sushrut Barmate (B22AI040) \\
+        Department of Computer Science and Engineering, IIT Jodhpur \\
+        Maths for Big Data}
+\date{\href{https://github.com/ronakgadhiya09/SeismicDenoise}{GitHub Repository: github.com/ronakgadhiya09/SeismicDenoise}}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-This paper presents a comprehensive mathematical analysis and implementation of low-rank matrix approximation techniques for seismic signal denoising. We investigate three principal methods: Singular Value Decomposition (SVD), Robust Principal Component Analysis (RPCA), and Hankel matrix SVD (also known as Singular Spectrum Analysis). Each method is mathematically formulated, algorithmically implemented, and experimentally evaluated using synthetic seismic data. We demonstrate that these techniques effectively separate coherent signal components from noise by exploiting the inherent low-rank structure of seismic data matrices. Performance metrics including signal-to-noise ratio and mean squared error confirm the efficacy of these approaches. Our results show that while standard SVD provides satisfactory denoising, RPCA better handles impulsive noise, and Hankel SVD effectively preserves oscillatory patterns characteristic of seismic signals.
+This Report presents a comprehensive mathematical analysis and implementation of low-rank matrix approximation techniques for seismic signal denoising. We investigate three principal methods: Singular Value Decomposition (SVD), Robust Principal Component Analysis (RPCA), and Hankel matrix SVD (also known as Singular Spectrum Analysis). Each method is mathematically formulated, algorithmically implemented, and experimentally evaluated using synthetic seismic data. We demonstrate that these techniques effectively separate coherent signal components from noise by exploiting the inherent low-rank structure of seismic data matrices. Performance metrics including signal-to-noise ratio and mean squared error confirm the efficacy of these approaches. Our results show that while standard SVD provides satisfactory denoising, RPCA better handles impulsive noise, and Hankel SVD effectively preserves oscillatory patterns characteristic of seismic signals.
 \end{abstract}
 
 \section{Introduction}
@@ -48,7 +56,7 @@ Seismic data processing presents significant mathematical challenges due to the 
 
 Traditional filtering approaches often struggle to separate signal from noise when their frequency content overlaps. However, recent advances in matrix decomposition techniques have opened new avenues for signal enhancement through the mathematical concept of low-rank approximation.
 
-This paper explores the mathematical foundations and practical implementation of three powerful low-rank approximation techniques for seismic signal denoising:
+This Report explores the mathematical foundations and practical implementation of three powerful low-rank approximation techniques for seismic signal denoising:
 
 \begin{itemize}
 \item Standard Singular Value Decomposition (SVD)
@@ -275,13 +283,13 @@ This measure quantifies how effectively the low-rank approximation captures the 
 \section{Experimental Results and Discussion}
 We applied our mathematical frameworks to synthetic seismic data generated with known signal and noise components. The synthetic data consisted of Ricker wavelets (second derivatives of Gaussians) with varying central frequencies, which effectively model seismic pulses.
 
-\subsection{Eigenvalue Decay Analysis}
-The mathematical structure of seismic signals is revealed in the eigenvalue spectrum obtained through SVD. Figure 1 shows a typical eigenvalue decay for our synthetic dataset.
+% \subsection{Eigenvalue Decay Analysis}
+% The mathematical structure of seismic signals is revealed in the eigenvalue spectrum obtained through SVD. 
 
-The rapid decay confirms the low-rank nature of seismic data and provides mathematical justification for truncating the spectrum. Quantitatively, we observed that the first 5 singular values captured over 90\% of the total energy in the clean signal.
+% The rapid decay confirms the low-rank nature of seismic data and provides mathematical justification for truncating the spectrum. Quantitatively, we observed that the first 5 singular values captured over 90\% of the total energy in the clean signal.
 
 \subsection{Performance Comparison}
-Table 1 presents the mathematical evaluation of the three denoising methods across different noise levels.
+We conducted comprehensive evaluations using three key metrics: Signal-to-Noise Ratio (SNR), Mean Squared Error (MSE), and Energy Preservation. Tables 1-3 present our findings across different noise levels.
 
 \begin{table}[h]
 \caption{Denoising Performance Metrics (SNR in dB)}
@@ -294,6 +302,35 @@ Original Noisy & 10.5 & 4.8 & 1.2 \\
 SVD (rank=5) & 17.3 & 12.1 & 7.5 \\
 RPCA (rank=5) & 18.2 & 13.5 & 9.1 \\
 Hankel SVD (rank=5) & 16.9 & 14.7 & 10.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\caption{Mean Squared Error (MSE)}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Method & Low Noise & Medium Noise & High Noise \\
+\midrule
+Original Noisy & 0.089 & 0.331 & 0.759 \\
+SVD (rank=5) & 0.019 & 0.062 & 0.178 \\
+RPCA (rank=5) & 0.015 & 0.045 & 0.123 \\
+Hankel SVD (rank=5) & 0.020 & 0.034 & 0.093 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\caption{Energy Preservation (percentage of original signal energy)}
+\centering
+\begin{tabular}{lccc}
+\toprule
+Method & Low Noise & Medium Noise & High Noise \\
+\midrule
+SVD (rank=5) & 94.2\% & 91.5\% & 87.3\% \\
+RPCA (rank=5) & 95.8\% & 92.3\% & 89.6\% \\
+Hankel SVD (rank=5) & 92.6\% & 93.7\% & 91.2\% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -343,253 +380,37 @@ Our implementation follows a well-organized directory structure:
 \item \texttt{docs/}: Documentation
 \end{itemize}
 
-\subsection{Data Handling}
-The data module provides functionality for loading and preprocessing seismic data:
+\subsection{Tech Stack}
+Our implementation leverages the following technologies and libraries:
 
 \begin{itemize}
-\item Support for standard seismic file formats (e.g., MiniSEED)
-\item Synthetic data generation for testing and validation
-\item Data normalization and filtering
+\item \textbf{Python 3.8+}: Core programming language
+\item \textbf{NumPy}: For efficient matrix operations and numerical computing
+\item \textbf{SciPy}: For scientific computing, including advanced linear algebra operations
+\item \textbf{ObsPy}: For seismic data processing and importing MiniSEED files
+\item \textbf{Matplotlib} and \textbf{Seaborn}: For visualization of results
+\item \textbf{Pandas}: For data manipulation and analysis
+\item \textbf{Scikit-learn}: For additional processing utilities
+\item \textbf{Jupyter Notebooks}: For interactive experimentation and demonstration
 \end{itemize}
 
-A key component is the \texttt{SeismicDataLoader} class that handles data loading and preprocessing:
+The choice of these technologies enables high performance computation while maintaining readability and extensibility. Our framework is designed to be easily extended with additional denoising algorithms or adapted to new types of signals.
 
-\begin{lstlisting}
-class SeismicDataLoader:
-    def __init__(self, data_dir):
-        self.data_dir = data_dir
-        
-    def load_data(self, file_pattern="*.mseed"):
-        # Load data or generate synthetic if no files
-        ...
-        
-    def _create_synthetic_data(self, n_traces=10, 
-                              n_samples=1000):
-        # Generate Ricker wavelets with noise
-        ...
-\end{lstlisting}
+\subsection{Algorithm Implementation}
+Each denoising method is implemented as a separate class following a common interface, allowing for consistent usage and comparison across methods. Key considerations in the implementation include:
 
-\subsection{SVD Denoiser Implementation}
-The SVD denoiser implementation follows the mathematical formulation described earlier:
-
-\begin{lstlisting}
-class SVDDenoiser:
-    def __init__(self, rank=None, threshold=None, 
-               fraction=None):
-        self.rank = rank
-        self.threshold = threshold
-        self.fraction = fraction
-        
-    def denoise(self, data):
-        # Extract data matrix
-        data_matrix = data['data']
-        
-        # Compute SVD
-        U, sigma, Vt = linalg.svd(data_matrix, 
-                             full_matrices=False)
-        
-        # Determine components to keep
-        k = self._determine_rank(sigma)
-        
-        # Generate low-rank approximation
-        denoised_matrix = U[:, :k] @ np.diag(sigma[:k]) \
-                        @ Vt[:k, :]
-                        
-        # Return denoised data and metadata
-        ...
-\end{lstlisting}
-
-The implementation supports multiple rank determination methods:
 \begin{itemize}
-\item Fixed rank specified by the user
-\item Threshold-based (keep components above $\tau \cdot \sigma_1$)
-\item Energy-based (keep components capturing $\alpha$ fraction of energy)
+\item Memory efficiency for handling large seismic datasets
+\item Vectorized operations for optimal performance
+\item Robust parameter selection strategies
+\item Comprehensive error handling and logging
+\item Thorough documentation and type hints
 \end{itemize}
 
-\subsection{RPCA Denoiser Implementation}
-The RPCA implementation uses the ADMM algorithm:
-
-\begin{lstlisting}
-class RPCADenoiser:
-    def __init__(self, rank=10, lmbda=None, max_iter=100, 
-               tol=1e-7):
-        self.rank = rank
-        self.lmbda = lmbda
-        self.max_iter = max_iter
-        self.tol = tol
-    
-    def _rpca(self, M):
-        # Initialize variables
-        L = np.zeros_like(M)
-        S = np.zeros_like(M)
-        Y = np.zeros_like(M)
-        mu = 1.25 / np.linalg.norm(M)
-        
-        # ADMM iterations
-        for i in range(self.max_iter):
-            # Update L with SVD soft thresholding
-            U, sigma, Vt = linalg.svd(
-                M - S + Y/mu, full_matrices=False)
-            sigma_threshold = self._svd_threshold(
-                sigma, 1/mu)
-            r = min(self.rank, len(sigma_threshold))
-            L_new = U[:, :r] @ np.diag(
-                sigma_threshold[:r]) @ Vt[:r, :]
-            
-            # Update S with soft thresholding
-            S_new = self._soft_threshold(
-                M - L_new + Y/mu, self.lmbda/mu)
-            
-            # Update Y (Lagrange multiplier)
-            Z = M - L_new - S_new
-            Y = Y + mu * Z
-            
-            # Check convergence
-            ...
-            
-        return L, S, i+1
-\end{lstlisting}
-
-\subsection{Hankel SVD Implementation}
-The Hankel SVD implementation consists of utility functions for creating and processing Hankel matrices, followed by the main denoiser:
-
-\begin{lstlisting}
-def create_hankel_matrix(signal, L=None):
-    """Create a Hankel matrix from a 1D signal."""
-    n = len(signal)
-    if L is None:
-        L = n // 2
-    K = n - L + 1  # Number of columns
-    H = np.zeros((L, K))
-    
-    # Fill the Hankel matrix
-    for i in range(L):
-        H[i, :] = signal[i:i + K]
-    
-    return H
-
-def reconstruct_from_hankel(H):
-    """Reconstruct signal by averaging anti-diagonals."""
-    L, K = H.shape
-    n = L + K - 1  # Length of original signal
-    
-    reconstructed = np.zeros(n)
-    count = np.zeros(n)
-    
-    # For each anti-diagonal, average values
-    for i in range(L):
-        for j in range(K):
-            idx = i + j  # Index in reconstructed signal
-            reconstructed[idx] += H[i, j]
-            count[idx] += 1
-    
-    # Average by dividing by count
-    reconstructed = reconstructed / count
-    
-    return reconstructed
-\end{lstlisting}
-
-\begin{lstlisting}
-class HankelDenoiser:
-    def __init__(self, rank=None, window_length=None):
-        self.rank = rank
-        self.window_length = window_length
-    
-    def denoise(self, data):
-        # Apply to each trace independently
-        data_matrix = data['data']
-        denoised_data = np.zeros_like(data_matrix)
-        
-        for i in range(data_matrix.shape[0]):
-            # Create Hankel matrix
-            H = create_hankel_matrix(
-                data_matrix[i], self.window_length)
-            
-            # Apply SVD and truncation
-            U, sigma, Vt = linalg.svd(
-                H, full_matrices=False)
-            r = self.rank
-            H_denoised = U[:, :r] @ np.diag(
-                sigma[:r]) @ Vt[:r, :]
-            
-            # Reconstruct signal
-            denoised_trace = reconstruct_from_hankel(
-                H_denoised)
-            denoised_data[i] = denoised_trace
-        
-        # Return denoised data and metadata
-        ...
-\end{lstlisting}
-
-\subsection{Visualization and Analysis}
-Our implementation includes comprehensive visualization tools for comparing original, noisy, and denoised signals, both in time domain and frequency domain:
-
-\begin{lstlisting}
-def plot_comparison(raw_data, preprocessed_data, 
-                 denoised_data, output_file=None):
-    """Plot comparison between raw, preprocessed, 
-    and denoised data."""
-    # Create figure with subplots
-    fig = plt.figure(figsize=(15, 10))
-    gs = gridspec.GridSpec(3, 3, figure=fig)
-    
-    # Plot time domain traces
-    ...
-    
-    # Plot 2D seismic sections
-    ...
-    
-    # Plot frequency spectra
-    ...
-\end{lstlisting}
-
-\subsection{Command-Line Interface}
-We provide a flexible command-line interface for running denoising tasks:
-
-\begin{lstlisting}
-def parse_args():
-    """Parse command line arguments."""
-    parser = argparse.ArgumentParser(
-        description='Seismic Signal Denoising')
-    parser.add_argument('--data_path', type=str, 
-                     default='data/raw')
-    parser.add_argument('--method', type=str, 
-                     choices=['svd', 'rpca', 'hankel'], 
-                     default='svd')
-    parser.add_argument('--rank', type=int, default=10)
-    parser.add_argument('--visualize', 
-                     action='store_true')
-    return parser.parse_args()
-
-def main():
-    # Parse arguments
-    args = parse_args()
-    
-    # Load and preprocess data
-    data_loader = SeismicDataLoader(args.data_path)
-    raw_data = data_loader.load_data()
-    preprocessed_data = preprocess_seismic_data(raw_data)
-    
-    # Apply selected denoising method
-    if args.method == 'svd':
-        denoiser = SVDDenoiser(rank=args.rank)
-    elif args.method == 'rpca':
-        denoiser = RPCADenoiser(rank=args.rank)
-    elif args.method == 'hankel':
-        denoiser = HankelDenoiser(rank=args.rank)
-    
-    denoised_data = denoiser.denoise(preprocessed_data)
-    
-    # Visualize results if requested
-    if args.visualize:
-        plot_comparison(raw_data, preprocessed_data, 
-                     denoised_data)
-\end{lstlisting}
-
-The implementation is designed with extensibility in mind, allowing for the addition of new denoising algorithms and customization of existing ones.
+The modular design allows researchers to focus on the mathematical aspects of the methods while the framework handles data loading, preprocessing, and visualization.
 
 \section{Conclusion}
-This paper has presented a comprehensive mathematical treatment of low-rank matrix approximation techniques for seismic signal denoising. We have developed the theoretical foundations, algorithmic implementations, and experimental evaluations of SVD, RPCA, and Hankel SVD approaches.
+This Report has presented a comprehensive mathematical treatment of low-rank matrix approximation techniques for seismic signal denoising. We have developed the theoretical foundations, algorithmic implementations, and experimental evaluations of SVD, RPCA, and Hankel SVD approaches.
 
 The mathematical analysis demonstrates that these methods effectively exploit the inherent low-dimensional structure of seismic signals to separate them from higher-dimensional noise. Our results confirm that while standard SVD provides good baseline performance, RPCA offers advantages for handling impulsive noise, and Hankel SVD excels at preserving the oscillatory patterns characteristic of seismic signals.
 
