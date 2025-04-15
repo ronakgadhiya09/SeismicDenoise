@@ -8,7 +8,7 @@
 This project implements advanced low-rank matrix approximation methods for denoising seismic signals. It demonstrates how matrix decomposition techniques can effectively separate signal from noise in seismological data by exploiting the inherent low-rank structure of seismic matrices.
 
 <p align="center">
-  <img src="docs/images/Seismic Denoising Example.jpg" alt="Seismic Denoising Example" width="700"/>
+  <img src="docs/Seismic Denoising Example.jpg" alt="Seismic Denoising Example" width="700"/>
 </p>
 
 ## 📋 Features
